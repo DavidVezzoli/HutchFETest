@@ -1,0 +1,97 @@
+<div>
+    <nav class="navbar navbar-default sticky-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" (click)="changePageTitle('Account information')"><b>{{ title }}</b></a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account details
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/user/account-information" routerLinkActive="active" (click)="changePageTitle('Account information')">Account information</a></li>
+                        <li><a routerLink="/user/player-error-logs" routerLinkActive="active" (click)="changePageTitle('Error Logs')">Error logs</a></li>
+                        <li><a routerLink="/user/receipts" routerLinkActive="active" (click)="changePageTitle('Receipts')">Receipts</a></li>
+                    </ul>
+                </li>
+                <li><a routerLink="/resources" routerLinkActive="active" (click)="changePageTitle('Resources')">Resources</a></li>
+                <li>
+                    <a routerLink="/cars" routerLinkActive="active" (click)="changePageTitle('Cars')">Cars</a></li>
+                <li><a routerLink="/augments" routerLinkActive="active " (click)="changePageTitle('Augments')">Augments</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a data-toggle="collapse" data-target="#search">Search<span class="caret"></span></a>
+                </li>
+                <li>
+                    <a data-toggle="collapse" data-target="#filter">Filter<span class="caret"></span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="search" class="collapse">
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-1">
+                <h2>Search:</h2>
+            </div>
+            <div class="col-sm-9">
+                <form class="form-inline" action="/action_page.php">
+                    <div class="form-group">
+                        <label>Hutch ID:</label>
+                        <input type="text" class="form-control" id="hutchId">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook ID:</label>
+                        <input type="text" class="form-control" id="facebookId">
+                    </div>
+                    <div class="form-group">
+                        <label>Google ID:</label>
+                        <input type="text" class="form-control" id="googleId">
+                    </div>
+                    <div class="form-group">
+                        <label>Apple ID:</label>
+                        <input type="text" class="form-control" id="appleId">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="filter" class="collapse">
+
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-1">
+                <h2>Filter:</h2>
+            </div>
+            <div class="col-sm-9">
+                <form class="form-inline" action="/action_page.php">
+                    <div class="form-group">
+                        <label>Device ID:</label>
+                        <input type="text" class="form-control" id="deviceId">
+                    </div>
+                    <div class="form-group">
+                        <label>Google Receipt ID:</label>
+                        <input type="text" class="form-control" id="GoogleReceiptId">
+                    </div>
+                    <div class="form-group">
+                        <label>Social name:</label>
+                        <input type="text" class="form-control" id="SocialName">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid ">
+        <div class="panel panel-default ">
+            <div class="panel-heading text-center ">
+                <h1><b>{{ currentPage }}</b></h1>
+            </div>
+        </div>
+        <div class="panel-body ">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

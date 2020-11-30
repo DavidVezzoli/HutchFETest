@@ -1,0 +1,228 @@
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1>User</h1>
+        </div>
+        <div class="panel-body">
+            <h2>IAP Receipts</h2>
+            <div class="panel-height-500">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ReceiptId</th>
+                            <th>Receipt Provider</th>
+                            <th>ProductId</th>
+                            <th>Date of Purchase</th>
+                            <th>Approximate Dollar Value</th>
+                            <th>Refunded</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let receipt of portalSync.userIAPReceipts" [ngClass]="{ warning: receipt.refunded }">
+                            <td>{{receipt.orderId ? receipt.orderId : receipt.receiptId}}</td>
+                            <td>{{receipt.provider}}</td>
+                            <td>{{receipt.productId}}</td>
+                            <td>{{receipt.dateOfPurchase}}</td>
+                            <td>{{receipt.approximateDollarValue}}</td>
+                            <td>{{receipt.refunded}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Offer Receipts</h2>
+            <div class="panel-height-500">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>OfferId</th>
+                            <th>Times Claimed</th>
+                            <th>Last Triggered</th>
+                            <th>Last Claimed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let receipt of portalSync.userOfferReceipts">
+                            <td>
+                                <a routerLink="/offer/{{receipt.offerId}}" target="_blank">{{receipt.offerId}}</a>
+                            </td>
+                            <td>{{receipt.numTimesClaimed}}</td>
+                            <td>{{receipt.triggerDates.length > 0 ? receipt.triggerDates[receipt.triggerDates.length - 1] : 'Not triggered'}}</td>
+                            <td>{{receipt.awardDates.length > 0 ? receipt.awardDates[receipt.awardDates.length - 1] : 'Not Claimed'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Fuel</h2>
+            <div class="row">
+                <form class="form-horizontal" #fuelForm="ngForm">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <!-- Permanent fuel increase -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="permanentFuelIncrease">Fuel increase purchased?</label>
+                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-success">Purchase</button>
+                            </div>
+                        </div>
+                        <!-- remaining -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="remaining">Fuel remaining:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="remaining" [ngModel]="portalSync.fuel && portalSync.fuel.remaining" name="remaining">
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-success">Set Fuel</button>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
+                        <!-- timer -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="timer">Next fuel available:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="timer" [disabled]="true" [(ngModel)]="portalSync.fuel && portalSync.fuel.timer" name="timer">
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                        <!-- max -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="max">Max fuel:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max" [disabled]="true" [(ngModel)]="portalSync.fuel && portalSync.fuel.max" name="max">
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </form>
+            </div>
+            <h2>Daily Gift</h2>
+            <div class="row">
+                <form class="form-horizontal" #dailyGiftForm="ngForm">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <!-- totalGiftsClaimed -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="totalGiftsClaimed">Total Gifts Claimed:</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" id="totalGiftsClaimed" [disabled]="true" [(ngModel)]="portalSync.dailyGift && portalSync.dailyGift.totalGiftsClaimed" name="totalGiftsClaimed">
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-success" type="button"><span class="fa fa-arrow-up"></span> Claim Gift</button>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <!-- dateNextGiftAvailable -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="dateNextGiftAvailable">Date Next Gift Available:</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" id="dateNextGiftAvailable" [disabled]="true" [(ngModel)]="portalSync.dailyGift && portalSync.dailyGift.dateNextGiftAvailable" name="dateNextGiftAvailable">
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div>
+                        <!-- dateNextConsecutiveGiftAvailable -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="dateNextConsecutiveGiftAvailable">Date Next Consecutive Gift Available:</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" id="dateNextConsecutiveGiftAvailable" [disabled]="true" [(ngModel)]="portalSync.dailyGift && portalSync.dailyGift.dateNextConsecutiveGiftAvailable" name="dateNextConsecutiveGiftAvailable">
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-danger" type="button"><span class="fa fa-unlock-alt"></span> Unlock</button>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <!-- consecutiveGiftsClaimed -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="consecutiveGiftsClaimed">Consecutive Gifts Claimed:</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" id="consecutiveGiftsClaimed" [disabled]="true" [(ngModel)]="portalSync.dailyGift && portalSync.dailyGift.consecutiveGiftsClaimed" name="consecutiveGiftsClaimed">
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div>
+                        <!-- maxConsecutiveGiftsClaimed -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="maxConsecutiveGiftsClaimed">Max Consecutive Gifts Claimed:</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" id="maxConsecutiveGiftsClaimed" [disabled]="true" [(ngModel)]="portalSync.dailyGift && portalSync.dailyGift.maxConsecutiveGiftsClaimed" name="maxConsecutiveGiftsClaimed">
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </form>
+            </div>
+            <h2>FTUE</h2>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-8">
+                    <div *ngFor="let ftueStoryProgress of portalSync.ftueProgress">
+                        <h2>
+                            '{{ftueStoryProgress.ftueStory}}' FTUE
+                        </h2>
+                        <form class="form-horizontal" (ngSubmit)="onSubmitStarted(ftueStoryProgress.ftueStory)" #startedForm="ngForm">
+                            <div class="form-group">
+
+                                <label class="col-sm-3 control-label" for="lastStepStarted">Last Step Started</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control btn btn-primary" id="lastStepStarted" required [(ngModel)]="ftueStoryProgress.lastStepStarted" name="lastStepStarted">
+                                    <option *ngFor="let ftueStep of orderedFTUEConfig[ftueStoryProgress.version][ftueStoryProgress.ftueStory]" [ngValue]="ftueStep" [label]="ftueStep"></option>
+                                </select>
+                                </div>
+                                <div class="col-sm-2" id="setStartedButton">
+                                    <button id="setStartedButton" type="submit" class="btn btn-success" [disabled]="startedForm.pristine">Set Last Step Started</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form class="form-horizontal" (ngSubmit)="onSubmitComplete(ftueStoryProgress.ftueStory)" #completeForm="ngForm">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="lastStepComplete">Last Step Complete</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control btn btn-primary" id="lastStepComplete" required [(ngModel)]="ftueStoryProgress.lastStepComplete" name="lastStepComplete">
+                                <option *ngFor="let ftueStep of orderedFTUEConfig[ftueStoryProgress.version][ftueStoryProgress.ftueStory]" [ngValue]="ftueStep" [label]="ftueStep"></option>
+                            </select>
+                                </div>
+                                <div class="col-sm-2" id="setCompleteButton">
+                                    <button id="setCompleteButton" type="submit" class="btn btn-success" [disabled]="completeForm.pristine">Set Last Step Complete</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-8">
+                    <form class="form-horizontal" #completeAllForm="ngForm">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="completeAll">Complete Entire FTUE</label>
+                            <div class="col-sm-2" id="completeAll">
+                                <button id="completeAllButton" type="submit" class="btn btn-danger">Go</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h2>Fusion Credits</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Manufacturer</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fusionCredit of portalSync.fusionCredits">
+                        <td>{{this.carManufacturerEnumMap[fusionCredit.manufacturerId]}}</td>
+                        <td>
+                            <input class="form-control" min="0" id="fusionCreditsAmount" type="number" [(ngModel)]="fusionCredit.amount" name="fusionCreditsAmount">
+                        </td>
+                        <td>
+                            <button id="changeFusionCreditsButton" class="btn btn-success">Submit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
